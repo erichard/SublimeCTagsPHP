@@ -1,20 +1,17 @@
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
 import sys
 import os
-
-# Ctags
-import ctags
-from ctags import (FILENAME, parse_tag_lines, PATH_ORDER, SYMBOL, Tag, TagFile)
-
-import ctagsplugin
-from ctagsplugin import *
 
 # Pull in built-in plugin directory
 built_in_plugins = os.path.join(sublime.packages_path(), 'CTags')
 if not built_in_plugins in sys.path:
     sys.path.append(built_in_plugins)
 
+from ctagsplugin import *
+
 ######################### IMPORT PHP USE FOR CLASS UNDER CURSOR #########################
+
 
 def ctags_import_php_use(jump_directly_if_one=False):
     def wrapper(f):
@@ -26,16 +23,17 @@ def ctags_import_php_use(jump_directly_if_one=False):
 
             if result not in (True, False, None):
                 args, display = result
-                if not args: return
+                if not args:
+                    return
 
                 def on_select(i):
                     if i != -1:
                         useStmt = os.path.dirname(args[i].tag_path[0])
-                        useStmt = re.sub(r"[^A-Z]+(.*)",'\\1',useStmt);
-                        useStmt = re.sub('/','\\\\',useStmt);
+                        useStmt = re.sub(r"[^A-Z]+(.*)", '\\1', useStmt)
+                        useStmt = re.sub('/', '\\\\', useStmt)
                         useStmt = "use " + useStmt + ";"
 
-                        region = view.find(r"^\s*use\s+[\w\\]+[;]",0)
+                        region = view.find(r"^\s*use\s+[\w\\]+[;]", 0)
                         if region != None:
                             line = view.line(region)
                             print line
@@ -43,28 +41,28 @@ def ctags_import_php_use(jump_directly_if_one=False):
                             self.view.insert(edit, line.end(), line_contents)
                             return True
 
-                        region = view.find(r"^\s*namespace\s+[\w\\]+[;{]",0)
+                        region = view.find(r"^\s*namespace\s+[\w\\]+[;{]", 0)
                         if region != None:
                             line = view.line(region)
                             line_contents = '\n\n' + useStmt
                             self.view.insert(edit, line.end(), line_contents)
                             return True
 
-                        region = view.find(r"<\?php",0)
+                        region = view.find(r"<\?php", 0)
                         if region != None:
                             line = view.line(region)
                             line_contents = '\n\n' + useStmt
                             self.view.insert(edit, line.end(), line_contents)
                             return True
 
-                ( on_select(0) if   jump_directly_if_one and len(args) == 1
-                               else view.window().show_quick_panel (
-                                                  display, on_select ) )
+                (on_select(0) if   jump_directly_if_one and len(args) == 1
+                              else view.window().show_quick_panel(
+                                                  display, on_select))
         return command
     return wrapper
 
 
-class ImportPhpUse(sublime_plugin.TextCommand):
+class ImportUseCommand(sublime_plugin.TextCommand):
     is_enabled = check_if_building
 
     def is_visible(self):
@@ -74,23 +72,25 @@ class ImportPhpUse(sublime_plugin.TextCommand):
     def run(self, view, args, tags_file, tags):
         symbol = view.substr(view.word(view.sel()[0]))
 
-        if re.match(r"\w",symbol) == None:
+        if re.match(r"\w", symbol) == None:
             return status_message('Not a valid symbol "%s" !' % symbol)
 
-        region = view.find(r"^\s*use\s+[\w\\]+"+symbol+"[;]",0)
+        region = view.find(r"^\s*use\s+[\w\\]+" + symbol + "[;]", 0)
         if region != None:
             return status_message('Use for "%s" already exist !' % symbol)
 
         for tags_file in alternate_tags_paths(view, tags_file):
-            tags = (TagFile( tags_file, SYMBOL)
-                            .get_tags_dict( symbol,
-                                            filters=compile_filters(view)) )
-            if tags: break
+            tags = (TagFile(tags_file, SYMBOL)
+                            .get_tags_dict(symbol,
+                                            filters=compile_filters(view)))
+            if tags:
+                break
 
         if not tags:
             return status_message('Can\'t find "%s"' % symbol)
 
         current_file = view.file_name().replace(dirname(tags_file) + os.sep, '')
+
         def definition_cmp(a, b):
             if normpath(a.tag_path[0]) == current_file:
                 return -1
@@ -99,6 +99,7 @@ class ImportPhpUse(sublime_plugin.TextCommand):
             return 0
 
         def_filters = compile_definition_filters(view)
+
         def pass_def_filter(o):
             for f in def_filters:
                 for k, v in f.items():
@@ -118,3 +119,30 @@ class ImportPhpUse(sublime_plugin.TextCommand):
 
         return sorted_tags
 
+
+class ImportNamespaceCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+
+        region = self.view.find(r"^\s*namespace\s[\w\\]+;", 0)
+
+        if region != None:
+            return status_message('namespace definition already exist !')
+
+        # Filename to namespace
+        filename = self.view.file_name()
+
+        if (not filename.endswith(".php")):
+            sublime.error_message("No .php extension")
+            return
+
+        # namespace begin at first camelcase dir
+        namespaceStmt = os.path.dirname(filename)
+        namespaceStmt = re.sub(r"[^A-Z]+(.*)", '\\1', namespaceStmt)
+        namespaceStmt = re.sub('/', '\\\\', namespaceStmt)
+
+        region = self.view.find(r"<\?php", 0)
+        if region != None:
+            line = self.view.line(region)
+            line_contents = '\n\n' + "namespace " + namespaceStmt + ";"
+            self.view.insert(edit, line.end(), line_contents)
+            return True

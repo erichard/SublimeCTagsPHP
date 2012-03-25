@@ -26,9 +26,13 @@ $ git clone https://github.com/erichard/SublimeCTagsPHP
 Features
 ========
 
-One unique feature for the moment, but it's AWESOME !
+Two AWESOME features for the moment !
 
-I've called it the 'import use statment' feature. Just bring your cursor hover
+
+import_use
+----------
+
+The first one is 'import use statment'. Just bring your cursor hover
 a class name, hit the F5 key (default but customizable) and that's it.
 
 Based on the current file content, the use statment could be added in :
@@ -36,3 +40,18 @@ Based on the current file content, the use statment could be added in :
   - Below the last use statment
   - Below the namespace statment (with an empty line between both)
   - Below the php opening tag (with an empty line between both)
+
+
+import_namespace
+----------------
+
+This one doesn't use CTags but it require a filename so the command won't work
+in unsaved buffer.
+
+Just hit the F4 key, it will add the namespace definition based on the absolute
+filename of the current file. I use a simple trick to determine where the
+namespace begun, actually the namespace will start at the first CamelCased
+folder.
+
+If a namespace is already declared, the command will shout how crazy you are in
+the status bar.
