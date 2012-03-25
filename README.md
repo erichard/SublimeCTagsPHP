@@ -28,11 +28,11 @@ Features
 
 One unique feature for the moment, but it's AWESOME !
 
-I've called it the 'import use statment' feature. Just bring your cursor hover
+I've called it the 'import use statement' feature. Just bring your cursor hover
 a class name, hit the F5 key (default but customizable) and that's it.
 
-Based on the current file content, the use statment could be added in :
+Based on the current file content, the use statement could be added in :
 
-  - Below the last use statment
-  - Below the namespace statment (with an empty line between both)
+  - Below the last use statement
+  - Below the namespace statement (with an empty line between both)
   - Below the php opening tag (with an empty line between both)
