@@ -28,7 +28,7 @@ def ctags_import_php_use(jump_directly_if_one=False):
 
                 def on_select(i):
                     if i != -1:
-                        useStmt = os.path.dirname(args[i].tag_path[0])
+                        useStmt = re.sub(r"\.php", "", args[i].tag_path[0])
                         useStmt = re.sub(r"[^A-Z]+(.*)", '\\1', useStmt)
                         useStmt = re.sub('/', '\\\\', useStmt)
                         useStmt = "use " + useStmt + ";"
