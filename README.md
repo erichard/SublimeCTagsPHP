@@ -32,13 +32,13 @@ Two AWESOME features for the moment !
 import_use
 ----------
 
-The first one is 'import use statment'. Just bring your cursor hover
+The first one is 'import use statement'. Just bring your cursor hover
 a class name, hit the F5 key (default but customizable) and that's it.
 
-Based on the current file content, the use statment could be added in :
+Based on the current file content, the use statement could be added in :
 
-  - Below the last use statment
-  - Below the namespace statment (with an empty line between both)
+  - Below the last use statement
+  - Below the namespace statement (with an empty line between both)
   - Below the php opening tag (with an empty line between both)
 
 
