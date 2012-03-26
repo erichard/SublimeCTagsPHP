@@ -45,9 +45,6 @@ Based on the current file content, the use statement could be added in :
 import_namespace
 ----------------
 
-This one doesn't use CTags but it require a filename so the command won't work
-in unsaved buffer.
-
 Just hit the F4 key, it will add the namespace definition based on the absolute
 filename of the current file. I use a simple trick to determine where the
 namespace begun, actually the namespace will start at the first CamelCased
@@ -55,3 +52,5 @@ folder.
 
 If a namespace is already declared, the command will shout how crazy you are in
 the status bar.
+
+**Warning:** This feature require a filename so the command won't work in an unsaved buffer.
