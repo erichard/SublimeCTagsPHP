@@ -1,0 +1,21 @@
+Thanks for installing SublimeCTags for PHP !
+
+You've just added two AWESOME features :
+
+import_use
+----------
+
+The first one is 'import use statement'. Just bring your cursor hover
+a class name, hit the F5 key (default but customizable) and that's it.
+
+If it does not work, rebuild your .ctags files with the dedicated command.
+
+import_namespace
+----------------
+
+Just hit the F4 key, it will add the namespace definition based on the absolute
+filename of the current file.
+
+The default setting assume your namespaces all start from the first capitalized
+folder. You can change that pattern by creating a CTagsPHP.sublime-settings in
+your user directory and changing the "start_dir_pattern" setting.

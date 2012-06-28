@@ -1,0 +1,15 @@
+Sublime CTagsPHP Changelog
+==========================
+
+New in 1.1
+----------
+
+The initial "import_namespace" assume that your namespace all start from the
+first capitalized. You can now change this behavior by creating a
+CTagsPHP.sublime-settings in your user directory and set the
+"start_dir_pattern" setting to your your need.
+
+For example with Symfony 2, I have set :
+{
+    "start_dir_pattern": ".*(?:src|vendor)/(.*)"
+}
