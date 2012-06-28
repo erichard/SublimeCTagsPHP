@@ -10,6 +10,8 @@ if not built_in_plugins in sys.path:
 
 from ctagsplugin import *
 
+setting = sublime.load_settings('CTagsPHP.sublime-settings').get # (key, None)
+
 ######################### IMPORT PHP USE FOR CLASS UNDER CURSOR #########################
 
 
@@ -137,7 +139,13 @@ class ImportNamespaceCommand(sublime_plugin.TextCommand):
 
         # namespace begin at first camelcase dir
         namespaceStmt = os.path.dirname(filename)
-        namespaceStmt = re.sub(r"[^A-Z]+(.*)", '\\1', namespaceStmt)
+
+        if (setting("start_dir_pattern")):
+            pattern = re.compile(setting("start_dir_pattern"))
+        else:
+            pattern = r"[^A-Z]+(.*)"
+
+        namespaceStmt = re.sub(pattern, '\\1', namespaceStmt)
         namespaceStmt = re.sub('/', '\\\\', namespaceStmt)
 
         region = self.view.find(r"<\?php", 0)
