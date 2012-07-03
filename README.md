@@ -16,7 +16,9 @@ Obviously, you NEED the CTags plugin for Sublime Text 2.
 Installation
 ===========
 
-Just clone this repo in your Sublime Text 2 Package dir.
+Search `ctagphp` in package control and you have done !
+
+Or clone this repo in your Sublime Text 2 Package dir.
 
 ```
 $ git clone https://github.com/erichard/SublimeCTagsPHP
