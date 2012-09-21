@@ -19,7 +19,7 @@ def ctags_import_php_use(jump_directly_if_one=False):
     def wrapper(f):
         def command(self, edit, **args):
             view = self.view
-            tags_file = find_tags_relative_to(view)
+            tags_file = find_tags_relative_to(view.file_name())
 
             result = f(self, self.view, args, tags_file, {})
 
