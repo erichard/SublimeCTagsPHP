@@ -3,6 +3,14 @@ Sublime CTags PHP
 
 This Sublime Text 2 Package provides cool stuff for PHP 5.3+ coding session.
 
+Sublime Text 3 support
+======================
+
+This plugin will **NOT** work in Sublime Text 3 ! 
+
+I've made a new plugin which use the built-in index instead of ctags.
+Take a look at [SublimePHPCompanion](https://github.com/erichard/SublimePHPCompanion).
+This new plugin is even better as it sort the use in your classes.
 
 Dependency
 ==========
